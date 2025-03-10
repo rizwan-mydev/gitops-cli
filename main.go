@@ -1,11 +1,12 @@
-/*
-Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
-*/
 package main
 
-import "github.com/rizwan-mydev/gitops-cli/cmd"
+import (
+	"log"
+	"github.com/rizwan-mydev/gitops-cli/cmd"
+)
 
 func main() {
-	cmd.Execute()
+	if err := cmd.CreateBranchCmd.Execute(); err != nil {
+		log.Fatal(err)
+	}
 }
