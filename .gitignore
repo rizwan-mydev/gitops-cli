@@ -1,0 +1,15 @@
+/gitops-cli
+vendor/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+bin/
+pkg/
+*.exe
+*.out
+*.test
+*.log
+*.tmp
+*.cache
