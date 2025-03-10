@@ -13,3 +13,13 @@ func NewInMemoryGitHubClient() *InMemoryGitHubClient {
 		PullRequests: make(map[string]string),
 	}
 }
+
+// CreateBranch creates a new branch in the given repository.
+func (c *InMemoryGitHubClient) CreateBranch(repo string, branchName string, baseBranch string) error {
+	if _, exists := c.Repositories[repo]; !exists {
+		c.Repositories[repo] = []string{}
+	}
+	c.Repositories[repo] = append(c.Repositories[repo], branchName)
+	return nil
+}
+
