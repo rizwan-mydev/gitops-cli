@@ -38,10 +38,11 @@ var CreateBranchCmd = &cobra.Command{
 		}
 
 		// Print all branches
-		fmt.Printf("Branches in repository '%s':\n", repo)
+		fmt.Fprintf(cmd.OutOrStdout(), "Branches in repository '%s':\n", repo)
 		for _, branch := range branches {
-			fmt.Println(branch)
+			fmt.Fprintf(cmd.OutOrStdout(), "%s\n", branch)
 		}
+		
 	},
 }
 
