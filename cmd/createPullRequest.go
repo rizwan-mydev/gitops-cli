@@ -28,8 +28,8 @@ var CreatePullRequestCmd = &cobra.Command{
 			log.Fatalf("Error creating pull request: %v", err)
 		}
 
-		// Print the pull request ID
-		fmt.Printf("Pull request created: %s\n", prID)
+		// Print the pull request ID using fmt.Fprintf to the command's output
+		fmt.Fprintf(cmd.OutOrStdout(), "Pull request created: %s\n", prID)
 	},
 }
 
