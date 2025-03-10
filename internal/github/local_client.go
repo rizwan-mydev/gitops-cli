@@ -52,3 +52,14 @@ func (c *InMemoryGitHubClient) DeleteBranch(repo string, branchName string) erro
 	delete(c.PullRequests, branchName)
 	return nil
 }
+
+// ListRepositories fetches a list of repositories.
+func (c *InMemoryGitHubClient) ListRepositories() ([]string, error) {
+	var repos []string
+	// Iterate over the repositories and add each repo name to the list
+	for repo := range c.Repositories {
+		repos = append(repos, repo)
+	}
+	return repos, nil
+}
+

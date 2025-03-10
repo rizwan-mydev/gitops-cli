@@ -77,3 +77,25 @@ func TestDeleteBranch(t *testing.T) {
 	// Verify the other branch remains
 	assert.Contains(t, branches, branchToKeep, "Expected branch %s to remain", branchToKeep)
 }
+
+// TestListRepositories verifies that the ListRepositories function returns the correct repositories
+func TestListRepositories(t *testing.T) {
+	client := NewInMemoryGitHubClient()
+
+	// Initialize repositories
+	client.Repositories["repo1"] = []string{"main"}
+	client.Repositories["repo2"] = []string{"main", "feature-branch"}
+	client.Repositories["repo3"] = []string{"main", "bug-fix-branch"}
+
+	// Call ListRepositories
+	repos, err := client.ListRepositories()
+	assert.NoError(t, err, "Expected no error when listing repositories")
+
+	// Verify the expected repositories are present
+	assert.Contains(t, repos, "repo1", "Expected repo1 to be in the list")
+	assert.Contains(t, repos, "repo2", "Expected repo2 to be in the list")
+	assert.Contains(t, repos, "repo3", "Expected repo3 to be in the list")
+
+	// Verify the length of the repository list
+	assert.Len(t, repos, 3, "Expected 3 repositories")
+}
