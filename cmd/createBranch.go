@@ -3,27 +3,32 @@ package cmd
 import (
 	"fmt"
 	"log"
+
 	"github.com/spf13/cobra"
 	"github.com/rizwan-mydev/gitops-cli/internal/github"
 )
 
-var repo, branchName, baseBranch string
+var repo, baseBranch string
+var branchNames []string
 
-// CreateBranchCmd defines the command for creating a branch
+// CreateBranchCmd defines the command for creating branches
 var CreateBranchCmd = &cobra.Command{
 	Use:   "create-branch",
-	Short: "Create a branch in a GitHub repository",
+	Short: "Create branches in a GitHub repository",
 	Run: func(cmd *cobra.Command, args []string) {
 		// Ensure flags are set
-		if repo == "" || branchName == "" {
-			log.Fatalf("Error: Repository and branch name must be provided")
+		if repo == "" || len(branchNames) == 0 {
+			log.Fatalf("Error: Repository and at least one branch name must be provided")
 		}
 		client := github.NewInMemoryGitHubClient()
 
-		// Call CreateBranch method
-		err := client.CreateBranch(repo, branchName, baseBranch)
-		if err != nil {
-			log.Fatalf("Error creating branch: %v", err)
+		// Iterate over branch names and create each branch
+		for _, branchName := range branchNames {
+			// Call CreateBranch method
+			err := client.CreateBranch(repo, branchName, baseBranch)
+			if err != nil {
+				log.Fatalf("Error creating branch '%s': %v", branchName, err)
+			}
 		}
 
 		// Confirm branch creation
@@ -43,6 +48,6 @@ var CreateBranchCmd = &cobra.Command{
 func init() {
 	// Add flags to the command
 	CreateBranchCmd.Flags().StringVarP(&repo, "repo", "r", "", "Repository name")
-	CreateBranchCmd.Flags().StringVarP(&branchName, "branch", "b", "", "Branch name")
+	CreateBranchCmd.Flags().StringSliceVarP(&branchNames, "branch", "b", []string{}, "List of branch names to create")
 	CreateBranchCmd.Flags().StringVarP(&baseBranch, "base", "s", "main", "Base branch name")
 }
