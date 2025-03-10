@@ -34,3 +34,21 @@ func (c *InMemoryGitHubClient) CreatePullRequest(repo string, branchName string,
 	return prID, nil
 }
 
+// DeleteBranch deletes a branch from the given repository.
+func (c *InMemoryGitHubClient) DeleteBranch(repo string, branchName string) error {
+	branches, exists := c.Repositories[repo]
+	if !exists {
+		return fmt.Errorf("repository %s not found", repo)
+	}
+
+	// Remove the branch
+	newBranches := []string{}
+	for _, b := range branches {
+		if b != branchName {
+			newBranches = append(newBranches, b)
+		}
+	}
+	c.Repositories[repo] = newBranches
+	delete(c.PullRequests, branchName)
+	return nil
+}

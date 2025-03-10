@@ -16,6 +16,7 @@ func main() {
 	// Add subcommands
 	rootCmd.AddCommand(cmd.CreateBranchCmd) // Add the new branch command
 	rootCmd.AddCommand(cmd.CreatePullRequestCmd) // Add the new PR command
+	rootCmd.AddCommand(cmd.DeleteBranchCmd) // Add DeleteBranchCmd to root command
 
 	// Execute the CLI
 	if err := rootCmd.Execute(); err != nil {
