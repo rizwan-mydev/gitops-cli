@@ -2,6 +2,7 @@ package github
 
 import (
 	"fmt"
+	"sort"
 )
 
 // InMemoryGitHubClient is a stub implementation of GitHubClient for testing.
@@ -60,6 +61,11 @@ func (c *InMemoryGitHubClient) ListRepositories() ([]string, error) {
 	for repo := range c.Repositories {
 		repos = append(repos, repo)
 	}
+
+	// Sort repository names to ensure consistent output order
+	sort.Strings(repos)
+
 	return repos, nil
 }
+
 
